@@ -7,7 +7,7 @@ import SearchFilters from './components/SearchFilters';
 import FileList from './components/FileList';
 import Analytics from './components/Analytics';
 import { createClient } from '@/utils/supabase/client';
-import type { KaizenReport, KaizenFormData, SearchFilters as SearchFiltersType } from '@/types';
+import type { KaizenReport, SearchFilters as SearchFiltersType } from '@/types';
 
 export default function Home() {
   const [files, setFiles] = useState<KaizenReport[]>([]);
@@ -67,47 +67,6 @@ export default function Home() {
     setFiles(files.filter(file => file.id !== deletedId));
   };
 
-  const handleKaizenSubmit = async (data: KaizenFormData) => {
-    try {
-      const formData = new FormData();
-      
-      // Append all form fields to FormData
-      Object.entries(data).forEach(([key, value]) => {
-        if (value instanceof File) {
-          formData.append(key, value);
-        } else if (typeof value === 'object') {
-          formData.append(key, JSON.stringify(value));
-        } else {
-          formData.append(key, String(value));
-        }
-      });
-  
-      const response = await fetch('/api/kaizen', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to submit Kaizen report');
-      }
-  
-      // Show success message
-      alert('Kaizen report submitted successfully!');
-      
-      // Refresh the file list if on search tab
-      if (activeTab === 'search') {
-        const searchResponse = await fetch('/api/search');
-        const searchData = await searchResponse.json();
-        if (searchData.success) {
-          setFiles(searchData.results);
-        }
-      }
-    } catch (error) {
-      console.error('Error submitting Kaizen report:', error);
-      alert('Failed to submit report. Please try again.');
-    }
-  };
-  
   return (
     <>
       {/* Navbar */}

@@ -55,11 +55,15 @@ export async function DELETE(request: NextRequest) {
         });
         
         console.log(`File ${driveFileId} deleted from Google Drive`);
-      } catch (driveError: any) {
-        // Log the error but continue with database deletion
-        console.error('Google Drive deletion error:', driveError?.response?.data || driveError);
+      } catch (driveError: unknown) {
+        if (driveError instanceof Error) {
+            console.error('Google Drive deletion error:', (driveError as any)?.response?.data || driveError.message);
+        } else {
+            console.error('Google Drive deletion error:', driveError);
+        }
         console.log('File not found in Google Drive, proceeding with database deletion');
-      }
+    }
+    
     } else {
       console.log('No Drive file ID available, only removing database record');
     }

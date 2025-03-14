@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { google } from 'googleapis';
 import { auth } from '@/lib/drive';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Test the Google Drive authentication
     const drive = google.drive({ version: 'v3', auth });
@@ -28,19 +28,31 @@ export async function GET(request: NextRequest) {
         email: process.env.GOOGLE_CLIENT_EMAIL?.split('@')[0] + '@...' || 'Not configured'
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    let errorMessage = 'An unknown error occurred';
+    let errorDetails: any = 'No additional details';
+
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    }
+
+    if (typeof error === 'object' && error !== null && 'response' in error) {
+        errorDetails = (error as any).response?.data;
+    }
+
     console.error('Google Drive test error:', error);
-    
+
     return NextResponse.json({
-      success: false,
-      error: 'Google Drive API connection failed',
-      message: error.message,
-      details: error.response?.data || 'No additional details',
-      authInfo: {
-        type: 'JWT',
-        scopes: auth.scopes,
-        email: process.env.GOOGLE_CLIENT_EMAIL?.split('@')[0] + '@...' || 'Not configured'
-      }
+        success: false,
+        error: 'Google Drive API connection failed',
+        message: errorMessage,
+        details: errorDetails,
+        authInfo: {
+            type: 'JWT',
+            scopes: auth.scopes,
+            email: process.env.GOOGLE_CLIENT_EMAIL?.split('@')[0] + '@...' || 'Not configured'
+        }
     }, { status: 500 });
-  }
+}
+
 }

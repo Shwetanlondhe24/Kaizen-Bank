@@ -8,13 +8,14 @@ export async function getSupabaseClient() {
 }
 
 // Helper function for common database operations
-export async function queryDatabase(tableName: string, options: {
-  select?: string | null,
-  match?: Record<string, any>,
-  order?: { column: string, ascending?: boolean },
-  limit?: number,
-  offset?: number
-} = {}) {
+export async function queryDatabase<T>(tableName: string, options: {
+  select?: string | null;
+  match?: Record<string, T>;
+  order?: { column: string; ascending?: boolean };
+  limit?: number;
+  offset?: number;
+} = {}) 
+ {
   const supabase = await getSupabaseClient();
   
   let query = supabase.from(tableName).select(options.select || '*');

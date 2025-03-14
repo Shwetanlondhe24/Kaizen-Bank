@@ -45,7 +45,7 @@ const cookieStore = cookies();
 const supabase = await createClient(cookieStore);
 
 // Store in database using Supabase
-const { data: insertData, error } = await supabase
+const { error } = await supabase
   .from('kaizen_reports')
   .insert({
     theme: theme,

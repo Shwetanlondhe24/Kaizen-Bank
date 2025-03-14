@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { KaizenReport } from '@/types';
-import { Eye, Download, Edit, Trash2 } from 'lucide-react';
+import { Eye, Download, Trash2 } from 'lucide-react';
 
 interface Props {
   files: KaizenReport[];
@@ -40,22 +40,6 @@ export default function FileList({ files, onDelete }: Props) {
     }
   };
 
-  const handleEdit = async (fileId: string, fileName: string) => {
-    try {
-      setLoading({ ...loading, [`edit_${fileId}`]: true });
-      
-      const downloadSuccess = await handleDownload(fileId, fileName);
-      
-      if (downloadSuccess) {
-        window.open('https://new.express.adobe.com/home/tools/edit-pdf?category=document', '_blank');
-      }
-    } catch (error) {
-      console.error('Edit process failed:', error);
-      alert('Failed to start edit process. Please try again.');
-    } finally {
-      setLoading({ ...loading, [`edit_${fileId}`]: false });
-    }
-  };
 
   const handleView = async (fileId: string) => {
     try {

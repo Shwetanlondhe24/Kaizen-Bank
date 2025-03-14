@@ -109,13 +109,19 @@ export async function GET(request: NextRequest) {
           'Content-Length': buffer.length.toString()
         }
       });
-    } catch (driveError: any) {
-      console.error('Google Drive error details:', driveError?.response?.data || driveError);
+    } catch (driveError: unknown) {
+      if (driveError instanceof Error) {
+          console.error('Google Drive error details:', (driveError as any)?.response?.data || driveError.message);
+      } else {
+          console.error('Google Drive error details:', driveError);
+      }
+  
       return NextResponse.json(
-        { success: false, error: 'File not found or access denied' },
-        { status: 404 }
+          { success: false, error: 'File not found or access denied' },
+          { status: 404 }
       );
-    }
+  }
+  
   } catch (error) {
     console.error('Download error:', error);
     return NextResponse.json(

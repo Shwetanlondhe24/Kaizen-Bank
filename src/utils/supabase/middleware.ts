@@ -27,7 +27,7 @@ export const createClient = (request: NextRequest) => {
           })
           response.cookies.set(name, value, options)
         },
-        remove(name, options) {
+        remove(name) {
           request.cookies.delete(name)
           response = NextResponse.next({
             request: {

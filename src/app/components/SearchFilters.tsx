@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import type { SearchFilters as SearchFiltersType } from '@/types';
 import { THEMES, DEPTS } from '@/constants';
-import { Search, Filter, Calendar } from 'lucide-react';
+import { Search, Filter} from 'lucide-react';
 
 interface Props {
   onSearch: (filters: SearchFiltersType) => void;

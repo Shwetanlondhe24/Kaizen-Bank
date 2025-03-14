@@ -70,13 +70,23 @@ export async function GET(request: NextRequest) {
         success: true, 
         viewLink: file.data.webViewLink 
       });
-    } catch (driveError: any) {
-      console.error('Google Drive error details:', driveError?.response?.data || driveError);
+    } catch (driveError: unknown) {
+      let errorDetails = 'An unknown error occurred';
+  
+      if (driveError instanceof Error) {
+          errorDetails = driveError.message;
+      } else if (typeof driveError === 'object' && driveError !== null && 'response' in driveError) {
+          errorDetails = (driveError as any).response?.data || driveError;
+      }
+  
+      console.error('Google Drive error details:', errorDetails);
+  
       return NextResponse.json(
-        { success: false, error: 'File not found or access denied' },
-        { status: 404 }
+          { success: false, error: 'File not found or access denied' },
+          { status: 404 }
       );
-    }
+  }
+  
   } catch (error) {
     console.error('View link error:', error);
     return NextResponse.json(
