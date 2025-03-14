@@ -1,7 +1,5 @@
 // src/app/api/upload/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
 import { uploadToDrive } from '@/lib/drive';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
@@ -29,33 +27,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Save file temporarily
+    // Get file buffer in memory instead of writing to disk
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const tempPath = join(process.cwd(), 'tmp', file.name);
-    await writeFile(tempPath, buffer);
 
-    // Upload to Google Drive
-    const driveFileId = await uploadToDrive(tempPath, file.name);
+    // Upload to Google Drive directly from memory
+    const driveFileId = await uploadToDrive(buffer, file.name);
     const periodDate = new Date(period);
     const formattedPeriod = new Date(periodDate.getTime() - (periodDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
 
     // Initialize Supabase client
-const cookieStore = cookies();
-const supabase = await createClient(cookieStore);
+    const cookieStore = cookies();
+    const supabase = await createClient(cookieStore);
 
-// Store in database using Supabase
-const { error } = await supabase
-  .from('kaizen_reports')
-  .insert({
-    theme: theme,
-    dept: dept,
-    file_name: file.name,
-    drive_file_id: driveFileId,
-    upload_date: formattedPeriod
-  })
-  .select();
-
+    // Store in database using Supabase
+    const { error } = await supabase
+      .from('kaizen_reports')
+      .insert({
+        theme: theme,
+        dept: dept,
+        file_name: file.name,
+        drive_file_id: driveFileId,
+        upload_date: formattedPeriod
+      })
+      .select();
 
     if (error) {
       throw error;

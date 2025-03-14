@@ -1,10 +1,8 @@
+// src/lib/drive.ts
 import { google } from 'googleapis';
-import { createReadStream } from 'fs';
-// Import only what's needed
-//import { JWT } from 'google-auth-library';
+import { Readable } from 'stream';
 
-// Create a properly initialized JWT auth instance
-// JWT is the correct type for service account authentication
+// Set up auth client with your credentials
 export const auth = new google.auth.JWT(
   process.env.GOOGLE_CLIENT_EMAIL,
   undefined,
@@ -16,37 +14,27 @@ export const auth = new google.auth.JWT(
   ]
 );
 
-// Keep the uploadToDrive function but use the exported auth instance
-export async function uploadToDrive(filePath: string, fileName: string): Promise<string> {
-  try {
-    const drive = google.drive({ version: 'v3', auth });
-    const fileStream = createReadStream(filePath);
+export async function uploadToDrive(fileBuffer: Buffer, fileName: string): Promise<string> {
+  const drive = google.drive({ version: 'v3', auth });
+  
+  // Create a readable stream from the buffer
+  const fileStream = new Readable();
+  fileStream.push(fileBuffer);
+  fileStream.push(null); // Signal the end of the stream
+  
+  // Upload file to Google Drive
+  const res = await drive.files.create({
+    requestBody: {
+      name: fileName,
+      mimeType: 'application/pdf',
+      // Add folder ID if you want to upload to a specific folder
+      parents: [process.env.GOOGLE_DRIVE_FOLDER_ID || ''],
+    },
+    media: {
+      mimeType: 'application/pdf',
+      body: fileStream,
+    },
+  });
 
-    const response = await drive.files.create({
-      requestBody: {
-        name: fileName,
-        parents: [process.env.GOOGLE_DRIVE_FOLDER_ID || ''], // Use environment variable
-      },
-      media: {
-        mimeType: 'application/octet-stream',
-        body: fileStream,
-      },
-      fields: 'id',
-    });
-
-    if (!response.data.id) {
-      throw new Error('Failed to retrieve file ID after upload.');
-    }
-
-    console.log(`File uploaded successfully: ${response.data.id}`);
-    return response.data.id;
-  } catch (error) {
-    console.error('Google Drive upload failed:', error);
-    throw new Error('Google Drive upload failed');
-  }
-}
-
-// If you need to get a new auth instance elsewhere, you can keep this function
-export async function getGoogleDriveAuth() {
-  return auth;
+  return res.data.id || '';
 }
