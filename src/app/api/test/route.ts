@@ -1,5 +1,5 @@
 // src/app/api/test/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+import {  NextResponse } from 'next/server';
 import { google } from 'googleapis';
 import { auth } from '@/lib/drive';
 
@@ -30,15 +30,17 @@ export async function GET() {
     });
   } catch (error: unknown) {
     let errorMessage = 'An unknown error occurred';
-    let errorDetails: any = 'No additional details';
+    let errorDetails: unknown = 'No additional details';
+
 
     if (error instanceof Error) {
         errorMessage = error.message;
     }
 
     if (typeof error === 'object' && error !== null && 'response' in error) {
-        errorDetails = (error as any).response?.data;
-    }
+      errorDetails = (error as { response?: { data?: unknown } }).response?.data;
+  }
+  
 
     console.error('Google Drive test error:', error);
 

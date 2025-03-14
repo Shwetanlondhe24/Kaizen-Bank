@@ -111,10 +111,11 @@ export async function GET(request: NextRequest) {
       });
     } catch (driveError: unknown) {
       if (driveError instanceof Error) {
-          console.error('Google Drive error details:', (driveError as any)?.response?.data || driveError.message);
+          console.error('Google Drive error details:', (driveError as { response?: { data?: unknown } })?.response?.data || driveError.message);
       } else {
           console.error('Google Drive error details:', driveError);
       }
+  
   
       return NextResponse.json(
           { success: false, error: 'File not found or access denied' },

@@ -72,12 +72,15 @@ export async function GET(request: NextRequest) {
       });
     } catch (driveError: unknown) {
       let errorDetails = 'An unknown error occurred';
-  
       if (driveError instanceof Error) {
-          errorDetails = driveError.message;
-      } else if (typeof driveError === 'object' && driveError !== null && 'response' in driveError) {
-          errorDetails = (driveError as any).response?.data || driveError;
-      }
+        errorDetails = driveError.message;
+    } else if (typeof driveError === 'object' && driveError !== null && 'response' in driveError) {
+        errorDetails = String((driveError as { response?: { data?: unknown } }).response?.data || driveError);
+    } else {
+        errorDetails = String(driveError);
+    }
+    
+    
   
       console.error('Google Drive error details:', errorDetails);
   

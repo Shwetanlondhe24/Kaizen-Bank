@@ -43,8 +43,10 @@ export default function UploadForm() {
         setPeriod(null);
       }
     } catch (error) {
+      console.error("Upload failed:", error);
       setStatus('Upload failed');
-    } finally {
+    }
+     finally {
       setIsLoading(false);
     }
   };

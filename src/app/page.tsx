@@ -13,7 +13,13 @@ export default function Home() {
   const [files, setFiles] = useState<KaizenReport[]>([]);
   const [activeTab, setActiveTab] = useState<'analytics' | 'upload' | 'search'>('analytics');
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [todos, setTodos] = useState<any[]>([]);
+  type Todo = {
+    id: number;
+    title: string;
+    completed: boolean;
+  };
+  
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   // Initialize Supabase client
   const supabase = createClient();
