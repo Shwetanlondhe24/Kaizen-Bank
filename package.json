@@ -1,0 +1,43 @@
+{
+  "name": "excel-uploader",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^7.15.0",
+    "@ilovepdf/ilovepdf-nodejs": "^0.3.0",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.49.1",
+    "autoprefixer": "^10.x.x",
+    "exceljs": "^4.4.0",
+    "formidable": "^3.5.2",
+    "googleapis": "^144.0.0",
+    "lucide-react": "^0.475.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.12.0",
+    "next": "15.1.6",
+    "react": "^19.0.0",
+    "react-datepicker": "^8.0.0",
+    "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.5",
+    "react-hook-form": "^7.54.2",
+    "recharts": "^2.15.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20.17.16",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.6",
+    "postcss": "^8.x.x",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

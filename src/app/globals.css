@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.kaizen-form input,
+.kaizen-form textarea,
+.kaizen-form select {
+  @apply border-black focus:border-blue-500 focus:ring-1 focus:ring-blue-500;
+}
+
+.kaizen-form label {
+  @apply text-sm font-medium text-gray-700;
+}
