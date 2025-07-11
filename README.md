@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kaizen Management System
 
-## Getting Started
+**Project –** Kaizen Management System  
+**Role –** Team Leader and Full Stack Developer  
+**Tech Stack –** Next.js (TypeScript), Supabase, Google Drive API, Vercel, Figma  
+**Live Project –** [https://kaizen-bank.vercel.app/](https://kaizen-bank.vercel.app/)  
+**Smartsheet Analytics video –** [https://drive.google.com/drive/folders/1QQGu44JTSNIMkHenGfmXC6K0MyAdNNuS?usp=sharing](https://drive.google.com/drive/folders/1QQGu44JTSNIMkHenGfmXC6K0MyAdNNuS?usp=sharing)
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🧩 Problem Statement
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mask Polymers Pvt. Ltd. provided a real-world problem faced in their operations — the lack of a centralized, digital system to manage Kaizen reports. Their existing process relied on manual report submissions, making it difficult to organize, search, and analyze improvement ideas across departments. They needed a platform that could streamline report management, ensure secure document storage, and offer insights through data visualization.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💡 Our Solution
 
-## Learn More
+To address this, we developed a Kaizen Management System as an academic project in collaboration with the company. I led the project as a team leader and full stack developer, building the entire system using Next.js, Supabase, and the Google Drive API.
 
-To learn more about Next.js, take a look at the following resources:
+The system includes features for uploading reports, searching with filters, and an analytics dashboard to visualize report submissions by department and theme.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎨 Design & Development Process
 
-## Deploy on Vercel
+We began by designing the frontend in Figma, then converted it into a fully functional full-stack web application by integrating each feature step by step. Users can upload Kaizen reports by selecting a theme, department, and date. This metadata is stored in Supabase, allowing for efficient, filter-based searching of reports.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔐 File Storage
+
+The actual documents are securely uploaded and stored on Google Drive using the Drive API. I also implemented a dynamic analytics dashboard that visualizes key insights, such as the number of reports submitted, categorized by department and theme.
+
+---
+
+## 📈 Outcome & Impact
+
+This project gave me a strong end-to-end experience in building scalable, real-world software while leading both the planning and technical execution.
